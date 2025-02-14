@@ -11,11 +11,13 @@ import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";
 import { useGlobalContext } from "./context/AppContext";
 import { useEffect } from "react";
+import AddBookModal from "./components/AddBookModal";
 
 function App() {
   // const [loading, setLoading] = useState(true);
   const {
     userObject: { setIsAuthUser, setUser },
+    addBookModalOpenObject: { addBookModalOpen },
   } = useGlobalContext();
 
   useEffect(() => {
@@ -32,20 +34,23 @@ function App() {
   // if (loading) return;
   // ============================================
   return (
-    <div className="relative">
-      <ToastContainer />
-      <Header />
-      <div className="">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/books" element={<BookListings />} />
-          <Route path="/book/:id" element={<BookDetails />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/review" element={<SubmitBookReview />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
+    <div className="">
+      <ToastContainer position="top-center" />
+      <div className="relative">
+        <Header />
+        <div className="pt-20">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/books" element={<BookListings />} />
+            <Route path="/book/:id" element={<BookDetails />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/review" element={<SubmitBookReview />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </div>
       </div>
+      {addBookModalOpen && <AddBookModal />}
     </div>
   );
 }

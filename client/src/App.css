@@ -46,3 +46,7 @@ body {
   padding: 0;
   margin: 0;
 }
+
+:root:has(.no-doc-scroll) {
+  overflow: hidden;
+}

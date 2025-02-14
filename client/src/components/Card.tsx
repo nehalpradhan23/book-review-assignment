@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Card = () => {
   return (
     <div className="flex gap-2 flex-col border border-black/30 w-[330px] h-[400px] rounded-md overflow-hidden bg-gray-100">
@@ -13,9 +15,12 @@ const Card = () => {
           </div>
         </div>
       </div>
-      <button className="text-lg font-semibold py-1.5 hover:bg-blue-300 transition-all border-t border-black/10">
+      <Link
+        to={`/book/${20}`}
+        className="text-lg font-semibold py-1.5 hover:bg-blue-300 transition-all border-t border-black/10 text-center"
+      >
         Details
-      </button>
+      </Link>
     </div>
   );
 };

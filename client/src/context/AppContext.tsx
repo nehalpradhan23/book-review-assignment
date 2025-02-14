@@ -8,6 +8,10 @@ const ContextProvider = createContext<GlobalContextType>({
     isAuthUser: undefined,
     setIsAuthUser: () => {},
   },
+  addBookModalOpenObject: {
+    addBookModalOpen: false,
+    setAddBookModalOpen: () => {},
+  },
 });
 
 export default function GlobalContextProvider({
@@ -17,10 +21,15 @@ export default function GlobalContextProvider({
 }) {
   const [isAuthUser, setIsAuthUser] = useState<boolean | undefined>(false); // is user logged in
   const [user, setUser] = useState<userType | null>(null); // store user data
+
+  const [addBookModalOpen, setAddBookModalOpen] = useState<boolean>(false);
   // ==============================================================
   return (
     <ContextProvider.Provider
-      value={{ userObject: { user, setUser, isAuthUser, setIsAuthUser } }}
+      value={{
+        userObject: { user, setUser, isAuthUser, setIsAuthUser },
+        addBookModalOpenObject: { addBookModalOpen, setAddBookModalOpen },
+      }}
     >
       {children}
     </ContextProvider.Provider>

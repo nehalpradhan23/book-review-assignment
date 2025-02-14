@@ -5,10 +5,15 @@ export interface GlobalContextType {
     isAuthUser: boolean | undefined;
     setIsAuthUser: React.Dispatch<React.SetStateAction<boolean | undefined>>;
   };
+  addBookModalOpenObject: {
+    addBookModalOpen: boolean;
+    setAddBookModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
 
 export interface userType {
   email: string;
   name: string;
   _id: string;
+  isAdmin: boolean;
 }

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useGlobalContext } from "../context/AppContext";
@@ -18,10 +18,18 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   const {
-    userObject: { setIsAuthUser, setUser },
+    userObject: { setIsAuthUser, setUser, isAuthUser, user },
   } = useGlobalContext();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user || isAuthUser) {
+      toast.info("User already logged in");
+      navigate("/");
+      return;
+    }
+  }, []);
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -94,7 +102,7 @@ const Register = () => {
 
   // ===============================================
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-200">
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-200 -mt-20">
       <div className="flex flex-col w-[400px] border border-black h-fit p-5 rounded-lg shadow-xl bg-slate-200">
         <h2 className="font-bold text-3xl mx-auto">Register</h2>
         <form

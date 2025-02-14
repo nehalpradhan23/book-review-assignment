@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useGlobalContext } from "../context/AppContext";
@@ -21,8 +21,16 @@ const Login = () => {
   const navigate = useNavigate();
 
   const {
-    userObject: { setUser, setIsAuthUser },
+    userObject: { setUser, setIsAuthUser, user, isAuthUser },
   } = useGlobalContext();
+
+  useEffect(() => {
+    if (user || isAuthUser) {
+      toast.info("User already logged in");
+      navigate("/");
+      return;
+    }
+  }, []);
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   // ==================================================
@@ -95,7 +103,7 @@ const Login = () => {
 
   // ================================================================
   return (
-    <div className="w-full flex items-center justify-center bg-gray-100 h-screen">
+    <div className="w-full flex items-center justify-center bg-gray-100 h-screen -mt-20">
       <div className="flex flex-col w-[400px] border border-black/50 h-fit p-5 rounded-lg shadow-2xl bg-slate-200">
         <h2 className="font-bold text-3xl mx-auto">Login</h2>
         <form

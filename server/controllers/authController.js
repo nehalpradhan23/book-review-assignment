@@ -67,6 +67,7 @@ export async function login(req, res) {
         id: userExists._id,
         name: userExists.name,
         email: userExists.email,
+        isAdmin: userExists.isAdmin,
       },
     });
   } catch (error) {
