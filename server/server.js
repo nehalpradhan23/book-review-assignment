@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
+import bookRoutes from "./routes/bookRoutes.js";
 import connectDB from "./config/db.js";
 
 // app config
@@ -14,6 +15,8 @@ app.use(express.json()); // parse requests using json methods
 app.use(cors()); // connect client to backend server
 
 app.use("/api", authRoutes);
+app.use("/api", bookRoutes);
+
 // app.use("/api", validate, authRoutes);
 
 // API routes

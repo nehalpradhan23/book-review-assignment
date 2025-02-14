@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { GlobalContextType, userType } from "../types/types";
+import { bookType, GlobalContextType, userType } from "../types/types";
 
 const ContextProvider = createContext<GlobalContextType>({
   userObject: {
@@ -12,6 +12,10 @@ const ContextProvider = createContext<GlobalContextType>({
     addBookModalOpen: false,
     setAddBookModalOpen: () => {},
   },
+  allBooksObject: {
+    allBooks: [],
+    setAllBooks: () => {},
+  },
 });
 
 export default function GlobalContextProvider({
@@ -22,6 +26,8 @@ export default function GlobalContextProvider({
   const [isAuthUser, setIsAuthUser] = useState<boolean | undefined>(false); // is user logged in
   const [user, setUser] = useState<userType | null>(null); // store user data
 
+  const [allBooks, setAllBooks] = useState<bookType[] | []>([]);
+
   const [addBookModalOpen, setAddBookModalOpen] = useState<boolean>(false);
   // ==============================================================
   return (
@@ -29,6 +35,7 @@ export default function GlobalContextProvider({
       value={{
         userObject: { user, setUser, isAuthUser, setIsAuthUser },
         addBookModalOpenObject: { addBookModalOpen, setAddBookModalOpen },
+        allBooksObject: { allBooks, setAllBooks },
       }}
     >
       {children}

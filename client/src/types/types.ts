@@ -9,11 +9,24 @@ export interface GlobalContextType {
     addBookModalOpen: boolean;
     setAddBookModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  allBooksObject: {
+    allBooks: bookType[] | [];
+    setAllBooks: React.Dispatch<React.SetStateAction<bookType[] | []>>;
+  };
 }
 
 export interface userType {
   email: string;
   name: string;
-  _id: string;
+  id: string;
   isAdmin: boolean;
+}
+
+export interface bookType {
+  _id: string;
+  name: string;
+  author: string;
+  image: string;
+  addedBy: string;
+  reviews: any[];
 }

@@ -3,23 +3,81 @@ import { MdOutlineCancel } from "react-icons/md";
 import { useGlobalContext } from "../context/AppContext";
 import { toast } from "react-toastify";
 import { FaPlus } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useFetchBooks } from "../hooks/useFetchAllBooks";
 
 const AddBookModal = () => {
   const {
     addBookModalOpenObject: { setAddBookModalOpen },
+    userObject: { user },
   } = useGlobalContext();
 
   const [bookTitle, setBookTitle] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [uploadedBookCoverUrl, setUploadedBookCoverUrl] = useState("");
 
-  const handleImageSave = async () => {
-    console.log(bookTitle);
-    console.log(authorName);
-    console.log(coverImage);
-    console.log(imageFile);
+  const [savingBook, setSavingBook] = useState(false);
+
+  const { fetchBooks } = useFetchBooks();
+
+  // ===========================================================
+  // save book after image upload
+  const saveBook = async () => {
+    try {
+      const response = await axios.post("http://localhost:4000/api/addBook", {
+        bookTitle,
+        authorName,
+        uploadedBookCoverUrl,
+        userId: user?.id,
+      });
+
+      console.log("book saved: ", response);
+      if (response.data.success) {
+        toast.success("Book added successfully");
+        fetchBooks();
+        setAddBookModalOpen(false);
+      } else {
+        toast.error("Error adding book");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("error adding book");
+      return;
+    } finally {
+      setSavingBook(false);
+    }
+  };
+
+  useEffect(() => {
+    if (uploadedBookCoverUrl) {
+      saveBook();
+    }
+  }, [uploadedBookCoverUrl]);
+  // ===========================================================
+
+  const handleBookSave = async () => {
+    setSavingBook(true);
+
+    if (!bookTitle || !authorName || !coverImage) {
+      toast.error("All fields required");
+      setSavingBook(false);
+      return;
+    }
+    // upload image first
+    try {
+      await handleImageUpload();
+      return;
+      // const uploadSuccess = await handleImageUpload();
+      // only save if image upload successful
+    } catch (error) {
+      toast.error("error adding book");
+      setSavingBook(false);
+    } finally {
+      setSavingBook(false);
+    }
   };
 
   // =======================================
@@ -38,7 +96,10 @@ const AddBookModal = () => {
   const handleImageUpload = async () => {
     // const file = e.target.files?.[0];
 
-    if (!imageFile) return;
+    if (!imageFile) {
+      toast.error("No image selected");
+      return null;
+    }
 
     const data = new FormData();
     data.append("file", imageFile);
@@ -46,23 +107,30 @@ const AddBookModal = () => {
     data.append("cloud_name", "dslottvms");
     toast.info("uploading image");
 
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/dslottvms/image/upload",
-      {
-        method: "POST",
-        body: data,
+    try {
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dslottvms/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      const uploadedImageUrl = await res.json();
+
+      if (!uploadedImageUrl) {
+        toast.error("Error uploading image");
+        return false;
       }
-    );
-
-    const uploadedImageUrl = await res.json();
-
-    if (!uploadedImageUrl) {
-      toast.error("uploading error");
-      return;
+      // setImages([...images, uploadedImageUrl.url]);
+      setUploadedBookCoverUrl(uploadedImageUrl.url);
+      // toast.success("Image uploaded successfully");
+      return true;
+    } catch (error) {
+      console.log("error uploading image: ", error);
+      toast.error("Error uploading image");
+      return false;
     }
-
-    // setImages([...images, uploadedImageUrl.url]);
-    toast.success("Image uploaded successfully");
   };
   // =======================================
   return createPortal(
@@ -151,10 +219,11 @@ const AddBookModal = () => {
         </div>
         {/* save book =============================== */}
         <button
-          onClick={handleImageSave}
+          disabled={savingBook}
+          onClick={handleBookSave}
           className="bg-blue-500 mt-4 hover:bg-blue-600 text-white rounded-md py-2 text-xl"
         >
-          Add book
+          {savingBook ? "Saving..." : "Add book"}
         </button>
       </div>
     </div>,

@@ -6,6 +6,7 @@ const BookListings = () => {
   const {
     userObject: { user },
     addBookModalOpenObject: { setAddBookModalOpen },
+    allBooksObject: { allBooks },
   } = useGlobalContext();
   // --------------------------------------------
   return (
@@ -33,7 +34,7 @@ const BookListings = () => {
           <button>filters</button>
         </div>
         <div className="mt-14">
-          <BooksList />
+          <BooksList books={allBooks} />
         </div>
       </div>
     </div>
