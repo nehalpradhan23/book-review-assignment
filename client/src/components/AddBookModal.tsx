@@ -135,9 +135,7 @@ const AddBookModal = () => {
   // =======================================
   return createPortal(
     <div className="no-doc-scroll overflow-y-scroll fixed inset-0 z-50 w-full h-screen bg-black/50 flex justify-center items-center">
-      <div
-        className={`${"w-[90%] h-[80%] lg:w-[1200px] lg:h-[800px] rounded-2xl"} bg-white p-6 flex flex-col`}
-      >
+      <div className="w-[90%] h-[80%] lg:w-[1200px] lg:h-[800px] rounded-2xl bg-white p-6 flex flex-col">
         {/* top bar - close button ----------- */}
         <div className="flex items-center justify-between text-3xl font-semibold">
           <span>Add new book</span>

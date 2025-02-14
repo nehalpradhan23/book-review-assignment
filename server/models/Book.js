@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema({
+  reviewerId: { type: String, required: true },
   username: { type: String, required: true }, // Store reviewer's username
   review: { type: String, required: true }, // Store the review text
   createdAt: { type: Date, default: Date.now }, // Timestamp for when the review was added

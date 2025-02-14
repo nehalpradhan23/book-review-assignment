@@ -2,6 +2,16 @@ import { Link } from "react-router-dom";
 import { bookType } from "../types/types";
 
 const Card = ({ book }: { book: bookType }) => {
+  // const {
+  //   currentBookDetailsObject: { setCurrentBookDetails },
+  // } = useGlobalContext();
+  // const navigate = useNavigate();
+
+  // const handleShowBookDetails = () => {
+  //   setCurrentBookDetails(book);
+  //   navigate(`/book/${book?._id}`);
+  // };
+  // =========================
   return (
     <div className="flex gap-2 flex-col border border-black/30 w-[330px] h-[400px] rounded-md overflow-hidden bg-gray-100">
       <div className="flex flex-col h-full">
@@ -20,7 +30,8 @@ const Card = ({ book }: { book: bookType }) => {
           </div> */}
         </div>
         <Link
-          to={`/book/${20}`}
+          to={`/book/${book?._id}`}
+          // onClick={handleShowBookDetails}
           className="text-lg font-semibold py-1.5 hover:bg-blue-300 transition-all border-t border-black/10 text-center"
         >
           Details

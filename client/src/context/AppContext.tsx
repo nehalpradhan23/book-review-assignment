@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { bookType, GlobalContextType, userType } from "../types/types";
+import { useFetchBooks } from "../hooks/useFetchAllBooks";
 
 const ContextProvider = createContext<GlobalContextType>({
   userObject: {
@@ -16,6 +17,10 @@ const ContextProvider = createContext<GlobalContextType>({
     allBooks: [],
     setAllBooks: () => {},
   },
+  currentBookDetailsObject: {
+    currentBookDetails: null,
+    setCurrentBookDetails: () => {},
+  },
 });
 
 export default function GlobalContextProvider({
@@ -28,7 +33,17 @@ export default function GlobalContextProvider({
 
   const [allBooks, setAllBooks] = useState<bookType[] | []>([]);
 
+  const [currentBookDetails, setCurrentBookDetails] = useState<bookType | null>(
+    null
+  );
+
   const [addBookModalOpen, setAddBookModalOpen] = useState<boolean>(false);
+
+  const { fetchBooks } = useFetchBooks();
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
   // ==============================================================
   return (
     <ContextProvider.Provider
@@ -36,6 +51,7 @@ export default function GlobalContextProvider({
         userObject: { user, setUser, isAuthUser, setIsAuthUser },
         addBookModalOpenObject: { addBookModalOpen, setAddBookModalOpen },
         allBooksObject: { allBooks, setAllBooks },
+        currentBookDetailsObject: { currentBookDetails, setCurrentBookDetails },
       }}
     >
       {children}

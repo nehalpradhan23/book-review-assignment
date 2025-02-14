@@ -1,9 +1,16 @@
 import express from "express";
-import { addBook, getAllBooks } from "../controllers/booksController.js";
+import {
+  addBook,
+  addReview,
+  getAllBooks,
+  getBookDetails,
+} from "../controllers/booksController.js";
 
 const bookRouter = express.Router();
 
 bookRouter.post("/addBook", addBook);
 bookRouter.get("/getAllBooks", getAllBooks);
+bookRouter.post("/addReview", addReview);
+bookRouter.get("/bookDetails/:id", getBookDetails);
 
 export default bookRouter;

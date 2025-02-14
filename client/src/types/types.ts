@@ -13,6 +13,12 @@ export interface GlobalContextType {
     allBooks: bookType[] | [];
     setAllBooks: React.Dispatch<React.SetStateAction<bookType[] | []>>;
   };
+  currentBookDetailsObject: {
+    currentBookDetails: bookType | null;
+    setCurrentBookDetails: React.Dispatch<
+      React.SetStateAction<bookType | null>
+    >;
+  };
 }
 
 export interface userType {

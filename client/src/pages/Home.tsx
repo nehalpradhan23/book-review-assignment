@@ -8,7 +8,6 @@ import { ImSpinner } from "react-icons/im";
 
 const Home = () => {
   const {
-    userObject: { user },
     allBooksObject: { allBooks },
   } = useGlobalContext();
   const { fetchBooks, loading } = useFetchBooks();
@@ -16,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     fetchBooks();
   }, []);
-  console.log("all books: ", allBooks);
+  // console.log("all books: ", allBooks);
 
   // --------------------------------------------
   return (
